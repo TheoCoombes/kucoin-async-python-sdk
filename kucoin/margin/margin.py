@@ -3,7 +3,7 @@ from kucoin.base_request.base_request import KucoinBaseRestApi
 
 class MarginData(KucoinBaseRestApi):
 
-    def get_mark_price(self, symbol):
+    async def get_mark_price(self, symbol):
         """
         https://docs.kucoin.com/#margin-info
         :param symbol: symbol (Mandatory)
@@ -16,9 +16,9 @@ class MarginData(KucoinBaseRestApi):
             "value": 0.00009807
         }
         """
-        return self._request('GET', '/api/v1/mark-price/{symbol}/current'.format(symbol=symbol))
+        return await self._request('GET', '/api/v1/mark-price/{symbol}/current'.format(symbol=symbol))
 
-    def get_margin_config(self):
+    async def get_margin_config(self):
         """
         https://docs.kucoin.com/#get-margin-configuration-info
         :return:
@@ -29,9 +29,9 @@ class MarginData(KucoinBaseRestApi):
             "maxLeverage": "3"
         }
         """
-        return self._request('GET', '/api/v1/margin/config')
+        return await self._request('GET', '/api/v1/margin/config')
 
-    def get_margin_account(self):
+    async def get_margin_account(self):
         """
         https://docs.kucoin.com/#get-margin-account
         :return:
@@ -49,9 +49,9 @@ class MarginData(KucoinBaseRestApi):
             "debtRatio": "0.33"
         }
         """
-        return self._request('GET', '/api/v1/margin/account')
+        return await self._request('GET', '/api/v1/margin/account')
 
-    def create_borrow_order(self, currency, order_type, size, **kwargs):
+    async def create_borrow_order(self, currency, order_type, size, **kwargs):
         """
         https://docs.kucoin.com/#post-borrow-order
         :param currency: Currency to Borrow (Mandatory)
@@ -74,9 +74,9 @@ class MarginData(KucoinBaseRestApi):
         }
         if kwargs:
             params.update(kwargs)
-        return self._request('POST', '/api/v1/margin/borrow', params=params)
+        return await self._request('POST', '/api/v1/margin/borrow', params=params)
 
-    def get_borrow_order(self, orderId):
+    async def get_borrow_order(self, orderId):
         """
         https://docs.kucoin.com/#get-borrow-order
         :param orderId: Borrow order ID
@@ -104,9 +104,9 @@ class MarginData(KucoinBaseRestApi):
             'orderId': orderId
         }
 
-        return self._request('GET', '/api/v1/margin/borrow', params=params)
+        return await self._request('GET', '/api/v1/margin/borrow', params=params)
 
-    def get_repay_record(self, **kwargs):
+    async def get_repay_record(self, **kwargs):
         """
         https://docs.kucoin.com/#get-repay-record
         :param kwargs: [Optional] currency, currentPage, pageSize
@@ -135,9 +135,9 @@ class MarginData(KucoinBaseRestApi):
         params = {}
         if kwargs:
             params.update(kwargs)
-        return self._request('GET', '/api/v1/margin/borrow/outstanding', params=params)
+        return await self._request('GET', '/api/v1/margin/borrow/outstanding', params=params)
 
-    def get_repayment_record(self, **kwargs):
+    async def get_repayment_record(self, **kwargs):
         """
         https://docs.kucoin.com/#get-repayment-record
         :param kwargs: [Optional] currency, currentPage, pageSize
@@ -164,9 +164,9 @@ class MarginData(KucoinBaseRestApi):
         params = {}
         if kwargs:
             params.update(kwargs)
-        return self._request('GET', '/api/v1/margin/borrow/repaid', params=params)
+        return await self._request('GET', '/api/v1/margin/borrow/repaid', params=params)
 
-    def click_to_repayment(self, currency, sequence, size):
+    async def click_to_repayment(self, currency, sequence, size):
         """
         https://docs.kucoin.com/#one-click-repayment
         :param currency: currency (Mandatory)
@@ -184,9 +184,9 @@ class MarginData(KucoinBaseRestApi):
             'sequence': sequence,
             'size': size
         }
-        return self._request('POST', '/api/v1/margin/repay/all', params=params)
+        return await self._request('POST', '/api/v1/margin/repay/all', params=params)
 
-    def repay_single_order(self, currency, tradeId, size):
+    async def repay_single_order(self, currency, tradeId, size):
         """
         https://docs.kucoin.com/#repay-a-single-order
         :param currency: currency (Mandatory)
@@ -202,9 +202,9 @@ class MarginData(KucoinBaseRestApi):
             'tradeId': tradeId,
             'size': size
         }
-        return self._request('POST', '/api/v1/margin/repay/single', params=params)
+        return await self._request('POST', '/api/v1/margin/repay/single', params=params)
 
-    def create_lend_order(self, currency, size, dailyIntRate, term):
+    async def create_lend_order(self, currency, size, dailyIntRate, term):
         """
         https://docs.kucoin.com/#post-lend-order
         :param currency: Currency to lend (Mandatory)
@@ -226,18 +226,18 @@ class MarginData(KucoinBaseRestApi):
             'dailyIntRate': dailyIntRate,
             'term': term
         }
-        return self._request('POST', '/api/v1/margin/lend', params=params)
+        return await self._request('POST', '/api/v1/margin/lend', params=params)
 
-    def cancel_lend_order(self, orderId):
+    async def cancel_lend_order(self, orderId):
         """
         https://docs.kucoin.com/#cancel-lend-order
         :param orderId: Lend order ID (Mandatory)
         :type: str
         :return:
         """
-        return self._request('DELETE', '/api/v1/margin/lend/{orderId}'.format(orderId=orderId))
+        return await self._request('DELETE', '/api/v1/margin/lend/{orderId}'.format(orderId=orderId))
 
-    def set_auto_lend(self, currency, isEnable, **kwargs):
+    async def set_auto_lend(self, currency, isEnable, **kwargs):
         """
         https://docs.kucoin.com/#set-auto-lend
         :param currency: currency (Mandatory)
@@ -253,9 +253,9 @@ class MarginData(KucoinBaseRestApi):
         }
         if kwargs:
             params.update(kwargs)
-        return self._request('POST', '/api/v1/margin/toggle-auto-lend', params=params)
+        return await self._request('POST', '/api/v1/margin/toggle-auto-lend', params=params)
 
-    def get_active_order(self, **kwargs):
+    async def get_active_order(self, **kwargs):
         """
         https://docs.kucoin.com/#get-active-order
         :param kwargs: [Optional] currency, currentPage, pageSize
@@ -279,9 +279,9 @@ class MarginData(KucoinBaseRestApi):
         params = {}
         if kwargs:
             params.update(kwargs)
-        return self._request('GET', '/api/v1/margin/lend/active', params=params)
+        return await self._request('GET', '/api/v1/margin/lend/active', params=params)
 
-    def get_lent_history(self, **kwargs):
+    async def get_lent_history(self, **kwargs):
         """
         https://docs.kucoin.com/#get-lent-history
         :param kwargs: [Optional] currency, currentPage, pageSize
@@ -306,9 +306,9 @@ class MarginData(KucoinBaseRestApi):
         params = {}
         if kwargs:
             params.update(kwargs)
-        return self._request('GET', '/api/v1/margin/lend/done', params=params)
+        return await self._request('GET', '/api/v1/margin/lend/done', params=params)
 
-    def get_active_list(self, **kwargs):
+    async def get_active_list(self, **kwargs):
         """
         https://docs.kucoin.com/#get-active-lend-order-list
         :param kwargs: [Optional] currency, currentPage, pageSize
@@ -333,9 +333,9 @@ class MarginData(KucoinBaseRestApi):
         params = {}
         if kwargs:
             params.update(kwargs)
-        return self._request('GET', '/api/v1/margin/lend/trade/unsettled', params=params)
+        return await self._request('GET', '/api/v1/margin/lend/trade/unsettled', params=params)
 
-    def get_settled_order(self, **kwargs):
+    async def get_settled_order(self, **kwargs):
         """
         https://docs.kucoin.com/#get-settled-lend-order-history
         :param kwargs: [Optional] currency, currentPage, pageSize
@@ -361,9 +361,9 @@ class MarginData(KucoinBaseRestApi):
         params = {}
         if kwargs:
             params.update(kwargs)
-        return self._request('GET', '/api/v1/margin/lend/trade/settled', params=params)
+        return await self._request('GET', '/api/v1/margin/lend/trade/settled', params=params)
 
-    def get_lend_record(self, currency=None):
+    async def get_lend_record(self, currency=None):
         """
         https://docs.kucoin.com/#get-account-lend-record
         :param currency: currency (Optional)
@@ -381,9 +381,9 @@ class MarginData(KucoinBaseRestApi):
         params = {}
         if currency:
             params['currency'] = currency
-        return self._request('GET', '/api/v1/margin/lend/assets', params=params)
+        return await self._request('GET', '/api/v1/margin/lend/assets', params=params)
 
-    def get_lending_market(self, currency, term=None):
+    async def get_lending_market(self, currency, term=None):
         """
         https://docs.kucoin.com/#lending-market-data
         :param currency: currency (Mandatory)
@@ -402,9 +402,9 @@ class MarginData(KucoinBaseRestApi):
         }
         if term:
             params['term'] = term
-        return self._request('GET', '/api/v1/margin/market', params=params)
+        return await self._request('GET', '/api/v1/margin/market', params=params)
 
-    def get_margin_data(self, currency):
+    async def get_margin_data(self, currency):
         """
         https://docs.kucoin.com/#margin-trade-data
         :param currency: currency (Mandatory)
@@ -422,4 +422,4 @@ class MarginData(KucoinBaseRestApi):
         params = {
             'currency': currency
         }
-        return self._request('GET', '/api/v1/margin/trade/last', params=params)
+        return await self._request('GET', '/api/v1/margin/trade/last', params=params)

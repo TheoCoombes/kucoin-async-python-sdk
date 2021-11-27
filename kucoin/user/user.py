@@ -3,7 +3,7 @@ from kucoin.base_request.base_request import KucoinBaseRestApi
 
 class UserData(KucoinBaseRestApi):
 
-    def get_actual_fee(self, symbols):
+    async def get_actual_fee(self, symbols):
         """
         https://docs.kucoin.top/#actual-fee-rate-of-the-trading-pair
         :param symbols: symbols
@@ -28,9 +28,9 @@ class UserData(KucoinBaseRestApi):
         params = {
             "symbols": symbols
         }
-        return self._request('GET', '/api/v1/trade-fees', params=params)
+        return await self._request('GET', '/api/v1/trade-fees', params=params)
 
-    def get_base_fee(self):
+    async def get_base_fee(self):
         """
         https://docs.kucoin.top/#basic-user-fee
 
@@ -43,9 +43,9 @@ class UserData(KucoinBaseRestApi):
                 }
             }
         """
-        return self._request('GET', '/api/v1/base-fee')
+        return await self._request('GET', '/api/v1/base-fee')
 
-    def get_sub_user(self):
+    async def get_sub_user(self):
         """
         https://docs.kucoin.com/#get-user-info-of-all-sub-accounts
 
@@ -62,9 +62,9 @@ class UserData(KucoinBaseRestApi):
             }
             ]
         """
-        return self._request('GET', '/api/v1/sub/user')
+        return await self._request('GET', '/api/v1/sub/user')
 
-    def create_account(self, account_type, currency):
+    async def create_account(self, account_type, currency):
         """
         https://docs.kucoin.com/#create-an-account
         :param account_type: Account type (Mandatory)
@@ -80,9 +80,9 @@ class UserData(KucoinBaseRestApi):
             'type': account_type,
             'currency': currency
         }
-        return self._request('POST', '/api/v1/accounts', params=params)
+        return await self._request('POST', '/api/v1/accounts', params=params)
 
-    def get_account_list(self, currency=None, account_type=None):
+    async def get_account_list(self, currency=None, account_type=None):
         """
         https://docs.kucoin.com/#list-accounts
         :param currency: Currency (Optional)
@@ -112,9 +112,9 @@ class UserData(KucoinBaseRestApi):
             params['currency'] = currency
         if account_type:
             params['type'] = account_type
-        return self._request('GET', '/api/v1/accounts', params=params)
+        return await self._request('GET', '/api/v1/accounts', params=params)
 
-    def get_account(self, accountId):
+    async def get_account(self, accountId):
         """
         https://docs.kucoin.com/#get-an-account
         :param accountId: ID of the account (Mandatory)
@@ -127,9 +127,9 @@ class UserData(KucoinBaseRestApi):
             "holds": "0". //Hold assets of a currency
         }
         """
-        return self._request('GET', '/api/v1/accounts/{accountId}'.format(accountId=accountId))
+        return await self._request('GET', '/api/v1/accounts/{accountId}'.format(accountId=accountId))
 
-    def get_account_ledger(self, **kwargs):
+    async def get_account_ledger(self, **kwargs):
         """
         https://docs.kucoin.top/#get-account-ledgers
         :param kwargs: [optional] currency, direction, bizType, startAt, endAt, currentPage , pageSize
@@ -156,7 +156,7 @@ class UserData(KucoinBaseRestApi):
                     }
                 },
                 {
-                    "id": "5bc7f080b39c5c03486def8c",//unique key
+                    "id": "5bc7f080b39c5c03486async def8c",//unique key
                     "currency": "KCS",
                     "amount": "0.0998",
                     "fee": "0",
@@ -171,7 +171,7 @@ class UserData(KucoinBaseRestApi):
                     }
                 },
                 {
-                    "id": "5bc7f080b39c5c03486def8a",//unique key
+                    "id": "5bc7f080b39c5c03486async def8a",//unique key
                     "currency": "KCS",
                     "amount": "0.0998",
                     "fee": "0",
@@ -193,9 +193,9 @@ class UserData(KucoinBaseRestApi):
         if kwargs:
             params.update(kwargs)
 
-        return self._request('GET', '/api/v1/accounts/ledgers', params=params)
+        return await self._request('GET', '/api/v1/accounts/ledgers', params=params)
 
-    def get_account_hold(self, accountId, **kwargs):
+    async def get_account_hold(self, accountId, **kwargs):
         """
         https://docs.kucoin.com/#get-holds
         :param accountId: ID of the account. (Mandatory)
@@ -230,9 +230,9 @@ class UserData(KucoinBaseRestApi):
         params = {}
         if kwargs:
             params.update(kwargs)
-        return self._request('GET', '/api/v1/accounts/{accountId}/holds'.format(accountId=accountId), params=params)
+        return await self._request('GET', '/api/v1/accounts/{accountId}/holds'.format(accountId=accountId), params=params)
 
-    def get_sub_account(self, subUserId):
+    async def get_sub_account(self, subUserId):
         """
         https://docs.kucoin.com/#get-account-balance-of-a-sub-account
         :param subUserId: the user ID of a sub-account. (Mandatory)
@@ -271,9 +271,9 @@ class UserData(KucoinBaseRestApi):
           }]
         }
         """
-        return self._request('GET', '/api/v1/sub-accounts/{subUserId}'.format(subUserId=subUserId))
+        return await self._request('GET', '/api/v1/sub-accounts/{subUserId}'.format(subUserId=subUserId))
 
-    def get_sub_accounts(self):
+    async def get_sub_accounts(self):
         """
         https://docs.kucoin.com/#get-the-aggregated-balance-of-all-sub-accounts
         :return:
@@ -312,9 +312,9 @@ class UserData(KucoinBaseRestApi):
           }
         ]
         """
-        return self._request('GET', '/api/v1/sub-accounts')
+        return await self._request('GET', '/api/v1/sub-accounts')
 
-    def get_transferable(self, currency, account_type):
+    async def get_transferable(self, currency, account_type):
         """
         https://docs.kucoin.com/#get-the-transferable
         :param currency: currency (Mandatory)
@@ -334,9 +334,9 @@ class UserData(KucoinBaseRestApi):
             'currency': currency,
             'type': account_type
         }
-        return self._request('GET', '/api/v1/accounts/transferable', params=params)
+        return await self._request('GET', '/api/v1/accounts/transferable', params=params)
 
-    def transfer_master_sub(self, currency, amount, direction, subUserId, clientOid='', accountType=None,
+    async def transfer_master_sub(self, currency, amount, direction, subUserId, clientOid='', accountType=None,
                             subAccountType=None):
         """
         https://docs.kucoin.com/#transfer-between-master-user-and-sub-user
@@ -372,9 +372,9 @@ class UserData(KucoinBaseRestApi):
         if not clientOid:
             clientOid = self.return_unique_id
         params['clientOid'] = clientOid
-        return self._request('POST', '/api/v2/accounts/sub-transfer', params=params)
+        return await self._request('POST', '/api/v2/accounts/sub-transfer', params=params)
 
-    def inner_transfer(self, currency, from_payer, to_payee, amount, clientOid=''):
+    async def inner_transfer(self, currency, from_payer, to_payee, amount, clientOid=''):
         """
         https://docs.kucoin.com/#inner-transfer
         :param currency: currency (Mandatory)
@@ -401,14 +401,14 @@ class UserData(KucoinBaseRestApi):
         if not clientOid:
             clientOid = self.return_unique_id
         params['clientOid'] = clientOid
-        return self._request('POST', '/api/v2/accounts/inner-transfer', params=params)
+        return await self._request('POST', '/api/v2/accounts/inner-transfer', params=params)
 
-    def create_deposit_address(self, currency, chain=None):
+    async def create_deposit_address(self, currency, chain=None):
         """
         https://docs.kucoin.com/#create-deposit-address
         :param currency: currency (Mandatory)
         :type: str
-        :param chain: The chain name of currency, e.g. The available value for USDT are OMNI, ERC20, TRC20,default is
+        :param chain: The chain name of currency, e.g. The available value for USDT are OMNI, ERC20, TRC20,async default is
         OMNI. This only apply for multi-chain currency, and there is no need for single chain currency. (Optional)
         :type: str
         :return:
@@ -423,14 +423,14 @@ class UserData(KucoinBaseRestApi):
         }
         if chain:
             params['chain'] = chain
-        return self._request('POST', '/api/v1/deposit-addresses', params=params)
+        return await self._request('POST', '/api/v1/deposit-addresses', params=params)
 
-    def get_deposit_addressv2(self, currency, chain=None):
+    async def get_deposit_addressv2(self, currency, chain=None):
         """
         https://docs.kucoin.com/#get-deposit-addresses-v2
         :param currency: currency (Mandatory)
         :type: str
-        :param chain: The chain name of currency, e.g. The available value for USDT are OMNI, ERC20, TRC20,default is
+        :param chain: The chain name of currency, e.g. The available value for USDT are OMNI, ERC20, TRC20,async default is
         OMNI. This only apply for multi-chain currency, and there is no need for single chain currency. (Optional)
         :type: str
         :return:
@@ -446,14 +446,14 @@ class UserData(KucoinBaseRestApi):
         }
         if chain:
             params['chain'] = chain
-        return self._request('GET', '/api/v2/deposit-addresses', params=params)
+        return await self._request('GET', '/api/v2/deposit-addresses', params=params)
 
-    def get_deposit_address(self, currency, chain=None):
+    async def get_deposit_address(self, currency, chain=None):
         """
         https://docs.kucoin.com/#get-deposit-address
         :param currency: currency (Mandatory)
         :type: str
-        :param chain: The chain name of currency, e.g. The available value for USDT are OMNI, ERC20, TRC20,default is
+        :param chain: The chain name of currency, e.g. The available value for USDT are OMNI, ERC20, TRC20,async default is
         OMNI. This only apply for multi-chain currency, and there is no need for single chain currency. (Optional)
         :type: str
         :return:
@@ -468,9 +468,9 @@ class UserData(KucoinBaseRestApi):
         }
         if chain:
             params['chain'] = chain
-        return self._request('GET', '/api/v1/deposit-addresses', params=params)
+        return await self._request('GET', '/api/v1/deposit-addresses', params=params)
 
-    def get_deposit_list(self, **kwargs):
+    async def get_deposit_list(self, **kwargs):
         """
         https://docs.kucoin.com/#get-deposit-list
         :param kwargs: [optional] currency, startAt, endAt, status, currentPage, pageSize
@@ -510,9 +510,9 @@ class UserData(KucoinBaseRestApi):
         params = {}
         if kwargs:
             params.update(kwargs)
-        return self._request('GET', '/api/v1/deposits', params=params)
+        return await self._request('GET', '/api/v1/deposits', params=params)
 
-    def get_deposit_list_v1(self, **kwargs):
+    async def get_deposit_list_v1(self, **kwargs):
         """
         https://docs.kucoin.com/#get-v1-historical-deposits-list
         :param kwargs: [optional] currency, startAt, endAt, status, currentPage, pageSize
@@ -552,9 +552,9 @@ class UserData(KucoinBaseRestApi):
         params = {}
         if kwargs:
             params.update(kwargs)
-        return self._request('GET', '/api/v1/hist-deposits', params=params)
+        return await self._request('GET', '/api/v1/hist-deposits', params=params)
 
-    def get_withdrawal_list(self, **kwargs):
+    async def get_withdrawal_list(self, **kwargs):
         """
         https://docs.kucoin.com/#get-withdrawals-list
         :param kwargs: [optional] currency, status, startAt, endAt, currentPage , pageSize
@@ -584,9 +584,9 @@ class UserData(KucoinBaseRestApi):
         if kwargs:
             params.update(kwargs)
 
-        return self._request('GET', '/api/v1/withdrawals', params=params)
+        return await self._request('GET', '/api/v1/withdrawals', params=params)
 
-    def get_hist_withdrawal_list(self, **kwargs):
+    async def get_hist_withdrawal_list(self, **kwargs):
         """
         https://docs.kucoin.com/#get-v1-historical-withdrawals-list
         :param kwargs: [optional] currency, status, startAt, endAt, currentPage , pageSize
@@ -611,14 +611,14 @@ class UserData(KucoinBaseRestApi):
         if kwargs:
             params.update(kwargs)
 
-        return self._request('GET', '/api/v1/hist-withdrawals', params=params)
+        return await self._request('GET', '/api/v1/hist-withdrawals', params=params)
 
-    def get_withdrawal_quota(self, currency, chain=None):
+    async def get_withdrawal_quota(self, currency, chain=None):
         """
         https://docs.kucoin.com/#get-withdrawal-quotas
         :param currency:  currency (Mandatory)
         :type: str
-        :param chain: The chain name of currency, e.g. The available value for USDT are OMNI, ERC20, TRC20, default is
+        :param chain: The chain name of currency, e.g. The available value for USDT are OMNI, ERC20, TRC20, async default is
         OMNI. This only apply for multi-chain currency, and there is no need for single chain currency. (Optional)
         :type: str
         :return:
@@ -642,9 +642,9 @@ class UserData(KucoinBaseRestApi):
         }
         if chain:
             params['chain'] = chain
-        return self._request('GET', '/api/v1/withdrawals/quotas', params=params)
+        return await self._request('GET', '/api/v1/withdrawals/quotas', params=params)
 
-    def apply_withdrawal(self, currency, address, amount, **kwargs):
+    async def apply_withdrawal(self, currency, address, amount, **kwargs):
         """
         https://docs.kucoin.com/#apply-withdraw-2
         :param currency: Currency. (Mandatory)
@@ -668,13 +668,13 @@ class UserData(KucoinBaseRestApi):
         if kwargs:
             params.update(kwargs)
 
-        return self._request('POST', '/api/v1/withdrawals', params=params)
+        return await self._request('POST', '/api/v1/withdrawals', params=params)
 
-    def cancel_withdrawal(self, withdrawalId):
+    async def cancel_withdrawal(self, withdrawalId):
         """
         https://docs.kucoin.com/#cancel-withdrawal
         :param withdrawalId: Path parameter, a unique ID for a withdrawal order  (Mandatory)
         :type: str
         :return:
         """
-        return self._request('DELETE', '/api/v1/withdrawals/{withdrawalId}'.format(withdrawalId=withdrawalId))
+        return await self._request('DELETE', '/api/v1/withdrawals/{withdrawalId}'.format(withdrawalId=withdrawalId))

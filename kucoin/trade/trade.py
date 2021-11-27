@@ -3,7 +3,7 @@ from kucoin.base_request.base_request import KucoinBaseRestApi
 
 class TradeData(KucoinBaseRestApi):
 
-    def create_limit_margin_order(self, symbol, side, size, price, clientOid='', **kwargs):
+    async def create_limit_margin_order(self, symbol, side, size, price, clientOid='', **kwargs):
         """
         https://docs.kucoin.com/#place-a-margin-order
         :param symbol: a valid trading symbol code (Mandatory)
@@ -36,9 +36,9 @@ class TradeData(KucoinBaseRestApi):
         if kwargs:
             params.update(kwargs)
 
-        return self._request('POST', '/api/v1/margin/order', params=params)
+        return await self._request('POST', '/api/v1/margin/order', params=params)
 
-    def create_market_margin_order(self, symbol, side, clientOid='', **kwargs):
+    async def create_market_margin_order(self, symbol, side, clientOid='', **kwargs):
         """
         https://docs.kucoin.com/#place-a-margin-order
         :param symbol: a valid trading symbol code (Mandatory)
@@ -65,9 +65,9 @@ class TradeData(KucoinBaseRestApi):
         if kwargs:
             params.update(kwargs)
 
-        return self._request('POST', '/api/v1/margin/order', params=params)
+        return await self._request('POST', '/api/v1/margin/order', params=params)
 
-    def create_limit_order(self, symbol, side, size, price, clientOid='', **kwargs):
+    async def create_limit_order(self, symbol, side, size, price, clientOid='', **kwargs):
         """
         https://docs.kucoin.com/#place-a-new-order
         :param symbol: a valid trading symbol code (Mandatory)
@@ -96,9 +96,9 @@ class TradeData(KucoinBaseRestApi):
         if kwargs:
             params.update(kwargs)
 
-        return self._request('POST', '/api/v1/orders', params=params)
+        return await self._request('POST', '/api/v1/orders', params=params)
 
-    def create_limit_stop_order(self, symbol, side, size, price, stopPrice,  clientOid="", **kwargs):
+    async def create_limit_stop_order(self, symbol, side, size, price, stopPrice,  clientOid="", **kwargs):
         params = {
             'symbol': symbol,
             'size': size,
@@ -113,9 +113,9 @@ class TradeData(KucoinBaseRestApi):
         if kwargs:
             params.update(kwargs)
 
-        return self._request('POST', '/api/v1/stop-order', params=params)
+        return await self._request('POST', '/api/v1/stop-order', params=params)
 
-    def create_market_stop_order(self, symbol, side, stopPrice, size="", funds="", clientOid="", **kwargs):
+    async def create_market_stop_order(self, symbol, side, stopPrice, size="", funds="", clientOid="", **kwargs):
         params = {
             'symbol': symbol,
             'side': side,
@@ -136,9 +136,9 @@ class TradeData(KucoinBaseRestApi):
         if kwargs:
             params.update(kwargs)
 
-        return self._request('POST', '/api/v1/stop-order', params=params)
+        return await self._request('POST', '/api/v1/stop-order', params=params)
 
-    def create_market_order(self, symbol, side, clientOid='', **kwargs):
+    async def create_market_order(self, symbol, side, clientOid='', **kwargs):
         """
         https://docs.kucoin.com/#place-a-new-order
         :param symbol: a valid trading symbol code (Mandatory)
@@ -161,9 +161,9 @@ class TradeData(KucoinBaseRestApi):
         if kwargs:
             params.update(kwargs)
 
-        return self._request('POST', '/api/v1/orders', params=params)
+        return await self._request('POST', '/api/v1/orders', params=params)
 
-    def create_bulk_orders(self, symbol, orderList):
+    async def create_bulk_orders(self, symbol, orderList):
         """
         https://docs.kucoin.com/#place-bulk-orders
         :param symbol: a valid trading symbol code.
@@ -226,16 +226,16 @@ class TradeData(KucoinBaseRestApi):
             'symbol': symbol,
             'orderList': orderList,
         }
-        return self._request('POST', '/api/v1/orders/multi', params=params)
+        return await self._request('POST', '/api/v1/orders/multi', params=params)
 
-    def cancel_client_order(self, clientId):
+    async def cancel_client_order(self, clientId):
         """
         :param orderId: str  (Mandatory)
         :return:{"cancelledOrderId": "5f311183c9b6d539dc614db3","clientOid": "6d539dc614db3"}
         """
-        return self._request('DELETE', f'/api/v1/order/client-order/{clientId}')
+        return await self._request('DELETE', f'/api/v1/order/client-order/{clientId}')
 
-    def cancel_stop_order(self, orderId):
+    async def cancel_stop_order(self, orderId):
         """
         :param orderId: Order ID, unique ID of the order. (Mandatory)
         :type: str
@@ -246,9 +246,9 @@ class TradeData(KucoinBaseRestApi):
             ]
         }
         """
-        return self._request('DELETE', f'/api/v1/stop-order/{orderId}')
+        return await self._request('DELETE', f'/api/v1/stop-order/{orderId}')
 
-    def cancel_client_stop_order(self, clientOid, symbol=""):
+    async def cancel_client_stop_order(self, clientOid, symbol=""):
         """
         :param orderId: Order ID, unique ID of the order. (Mandatory)
         :type: str
@@ -265,9 +265,9 @@ class TradeData(KucoinBaseRestApi):
         if symbol:
             params["symbol"] = symbol
 
-        return self._request('DELETE', f'/api/v1/stop-order/cancelOrderByClientOid', params=params)
+        return await self._request('DELETE', f'/api/v1/stop-order/cancelOrderByClientOid', params=params)
 
-    def cancel_stop_condition_order(self, symbol="", tradeType="", orderIds=""):
+    async def cancel_stop_condition_order(self, symbol="", tradeType="", orderIds=""):
         """
         """
         params = {}
@@ -278,9 +278,9 @@ class TradeData(KucoinBaseRestApi):
         if orderIds:
             params["orderIds"] = orderIds
 
-        return self._request('DELETE', f'/api/v1/stop-order/cancel',params=params)
+        return await self._request('DELETE', f'/api/v1/stop-order/cancel',params=params)
 
-    def cancel_order(self, orderId):
+    async def cancel_order(self, orderId):
         """
         https://docs.kucoin.com/#cancel-an-order
 
@@ -293,9 +293,9 @@ class TradeData(KucoinBaseRestApi):
             ]
         }
         """
-        return self._request('DELETE', '/api/v1/orders/{orderId}'.format(orderId=orderId))
+        return await self._request('DELETE', '/api/v1/orders/{orderId}'.format(orderId=orderId))
 
-    def cancel_all_orders(self, **kwargs):
+    async def cancel_all_orders(self, **kwargs):
         """
         https://docs.kucoin.com/#cancel-all-orders
         :param kwargs: [optional] symbol, tradeType
@@ -318,9 +318,9 @@ class TradeData(KucoinBaseRestApi):
         params = {}
         if kwargs:
             params.update(kwargs)
-        return self._request('DELETE', '/api/v1/orders', params=params)
+        return await self._request('DELETE', '/api/v1/orders', params=params)
 
-    def get_order_list(self, **kwargs):
+    async def get_order_list(self, **kwargs):
         """
         https://docs.kucoin.com/#list-orders
         :param kwargs: [optional] symbol, status, side, type, tradeType, startAt, endAt, currentPage, pageSize and so on
@@ -370,9 +370,9 @@ class TradeData(KucoinBaseRestApi):
         if kwargs:
             params.update(kwargs)
 
-        return self._request('GET', '/api/v1/orders', params=params)
+        return await self._request('GET', '/api/v1/orders', params=params)
 
-    def get_recent_orders(self):
+    async def get_recent_orders(self):
         """
         https://docs.kucoin.com/#recent-orders
         :return:
@@ -418,9 +418,9 @@ class TradeData(KucoinBaseRestApi):
         }
         """
 
-        return self._request('GET', '/api/v1/limit/orders')
+        return await self._request('GET', '/api/v1/limit/orders')
 
-    def get_order_details(self, orderId):
+    async def get_order_details(self, orderId):
         """
         https://docs.kucoin.com/#get-an-order
         :param orderId: Order ID, unique identifier of an order, obtained via the List orders. (Mandatory)
@@ -458,9 +458,9 @@ class TradeData(KucoinBaseRestApi):
             "tradeType": "TRADE"
         }
         """
-        return self._request('GET', '/api/v1/orders/{orderId}'.format(orderId=orderId))
+        return await self._request('GET', '/api/v1/orders/{orderId}'.format(orderId=orderId))
 
-    def get_all_stop_order_details(self, **kwargs):
+    async def get_all_stop_order_details(self, **kwargs):
         """
         :param orderId: Order ID, unique identifier of an order, obtained via the List orders. (Mandatory)
         :return:
@@ -500,9 +500,9 @@ class TradeData(KucoinBaseRestApi):
         params = {}
         if kwargs:
             params.update(kwargs)
-        return self._request('GET', f'/api/v1/stop-order', params=params)
+        return await self._request('GET', f'/api/v1/stop-order', params=params)
 
-    def get_stop_order_details(self, orderId):
+    async def get_stop_order_details(self, orderId):
         """
         :param orderId: Order ID, unique identifier of an order, obtained via the List orders. (Mandatory)
         :return:
@@ -539,9 +539,9 @@ class TradeData(KucoinBaseRestApi):
             "tradeType": "TRADE"
         }
         """
-        return self._request('GET', f'/api/v1/stop-order/{orderId}')
+        return await self._request('GET', f'/api/v1/stop-order/{orderId}')
 
-    def get_client_stop_order_details(self, clientOid, symbol=''):
+    async def get_client_stop_order_details(self, clientOid, symbol=''):
         """
         :param orderId: Order ID, unique identifier of an order, obtained via the List orders. (Mandatory)
         :return:
@@ -584,9 +584,9 @@ class TradeData(KucoinBaseRestApi):
         if symbol:
             params["symbol"] = symbol
 
-        return self._request('GET', f'/api/v1/stop-order/queryOrderByClientOid', params=params)
+        return await self._request('GET', f'/api/v1/stop-order/queryOrderByClientOid', params=params)
 
-    def get_fill_list(self, tradeType, **kwargs):
+    async def get_fill_list(self, tradeType, **kwargs):
         """
         https://docs.kucoin.com/#list-fills
         :param tradeType: The type of trading (Mandatory)
@@ -625,9 +625,9 @@ class TradeData(KucoinBaseRestApi):
         }
         if kwargs:
             params.update(kwargs)
-        return self._request('GET', '/api/v1/fills', params=params)
+        return await self._request('GET', '/api/v1/fills', params=params)
 
-    def get_recent_fills(self):
+    async def get_recent_fills(self):
         """
         https://docs.kucoin.com/#recent-fills
         :return:
@@ -691,9 +691,9 @@ class TradeData(KucoinBaseRestApi):
             }
         ]
         """
-        return self._request('GET', '/api/v1/limit/fills')
+        return await self._request('GET', '/api/v1/limit/fills')
 
-    def get_client_order_details(self, clientOid):
+    async def get_client_order_details(self, clientOid):
         """
         https://docs.kucoin.com/#recent-fills
         :param clientOid: Unique order id created by users to identify their orders
@@ -731,4 +731,4 @@ class TradeData(KucoinBaseRestApi):
           "tradeType": "MARGIN_TRADE"
         }
         """
-        return self._request('GET', f'/api/v1/order/client-order/{clientOid}')
+        return await self._request('GET', f'/api/v1/order/client-order/{clientOid}')

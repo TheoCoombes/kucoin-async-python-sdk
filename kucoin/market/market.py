@@ -3,7 +3,7 @@ from kucoin.base_request.base_request import KucoinBaseRestApi
 
 class MarketData(KucoinBaseRestApi):
 
-    def get_symbol_list(self, **kwargs):
+    async def get_symbol_list(self, **kwargs):
         """
         https://docs.kucoin.com/#get-symbols-list
         :param kwargs: [Optional] market
@@ -31,9 +31,9 @@ class MarketData(KucoinBaseRestApi):
         params = {}
         if kwargs:
             params.update(kwargs)
-        return self._request('GET', '/api/v1/symbols', params=params)
+        return await self._request('GET', '/api/v1/symbols', params=params)
 
-    def get_ticker(self, symbol):
+    async def get_ticker(self, symbol):
         """
         https://docs.kucoin.com/#get-ticker
         :param symbol: symbol (Mandatory)
@@ -54,9 +54,9 @@ class MarketData(KucoinBaseRestApi):
         params = {
             'symbol': symbol
         }
-        return self._request('GET', '/api/v1/market/orderbook/level1', params=params)
+        return await self._request('GET', '/api/v1/market/orderbook/level1', params=params)
 
-    def get_all_tickers(self):
+    async def get_all_tickers(self):
         """
         https://docs.kucoin.com/#get-all-tickers
         :return:
@@ -92,9 +92,9 @@ class MarketData(KucoinBaseRestApi):
             ]
         }
         """
-        return self._request('GET', '/api/v1/market/allTickers')
+        return await self._request('GET', '/api/v1/market/allTickers')
 
-    def get_24h_stats(self, symbol):
+    async def get_24h_stats(self, symbol):
         """
         https://docs.kucoin.com/#get-24hr-stats
         :param symbol: symbol (Mandatory)
@@ -118,9 +118,9 @@ class MarketData(KucoinBaseRestApi):
         params = {
             'symbol': symbol
         }
-        return self._request('GET', '/api/v1/market/stats', params=params)
+        return await self._request('GET', '/api/v1/market/stats', params=params)
 
-    def get_market_list(self):
+    async def get_market_list(self):
         """
         https://docs.kucoin.com/#get-24hr-stats
         :return:
@@ -131,9 +131,9 @@ class MarketData(KucoinBaseRestApi):
             "ALTS" //ALTS market includes ETH, NEO, TRX
         ]
         """
-        return self._request('GET', '/api/v1/markets')
+        return await self._request('GET', '/api/v1/markets')
 
-    def get_part_order(self, pieces, symbol):
+    async def get_part_order(self, pieces, symbol):
         """
         https://docs.kucoin.com/#get-part-order-book-aggregated
         :param pieces: pieces of data (ask and bid data) on the order book (Mandatory)
@@ -153,9 +153,9 @@ class MarketData(KucoinBaseRestApi):
         params = {
             'symbol': symbol
         }
-        return self._request('GET', '/api/v1/market/orderbook/level2_{pieces}'.format(pieces=pieces), params=params)
+        return await self._request('GET', '/api/v1/market/orderbook/level2_{pieces}'.format(pieces=pieces), params=params)
 
-    def get_aggregated_orderv3(self, symbol):
+    async def get_aggregated_orderv3(self, symbol):
         """
         https://docs.kucoin.com/#get-full-order-book-aggregated
         :param symbol: symbol (Mandatory)
@@ -173,9 +173,9 @@ class MarketData(KucoinBaseRestApi):
         params = {
             'symbol': symbol
         }
-        return self._request('GET', '/api/v3/market/orderbook/level2', params=params)
+        return await self._request('GET', '/api/v3/market/orderbook/level2', params=params)
 
-    def get_aggregated_order(self, symbol):
+    async def get_aggregated_order(self, symbol):
         """
         https://docs.kucoin.com/#get-full-order-book-aggregated
         :param symbol: symbol (Mandatory)
@@ -193,9 +193,9 @@ class MarketData(KucoinBaseRestApi):
         params = {
             'symbol': symbol
         }
-        return self._request('GET', '/api/v2/market/orderbook/level2', params=params)
+        return await self._request('GET', '/api/v2/market/orderbook/level2', params=params)
 
-    def get_atomic_orderv3(self, symbol):
+    async def get_atomic_orderv3(self, symbol):
         """
         https://docs.kucoin.com/#get-full-order-book-atomic
         :param symbol: symbol (Mandatory)
@@ -236,9 +236,9 @@ class MarketData(KucoinBaseRestApi):
             }
         }
         """
-        return self._request('GET', f'/api/v3/market/orderbook/level3?symbol={symbol}')
+        return await self._request('GET', f'/api/v3/market/orderbook/level3?symbol={symbol}')
 
-    def get_atomic_order(self, symbol):
+    async def get_atomic_order(self, symbol):
         """
         https://docs.kucoin.com/#get-full-order-book-atomic
         :param symbol: symbol (Mandatory)
@@ -279,9 +279,9 @@ class MarketData(KucoinBaseRestApi):
             }
         }
         """
-        return self._request('GET', f'/api/v1/market/orderbook/level3?symbol={symbol}')
+        return await self._request('GET', f'/api/v1/market/orderbook/level3?symbol={symbol}')
 
-    def get_trade_histories(self, symbol):
+    async def get_trade_histories(self, symbol):
         """
         https://docs.kucoin.com/#get-trade-histories
         :param symbol: symbol (Mandatory)
@@ -292,7 +292,7 @@ class MarketData(KucoinBaseRestApi):
               "sequence": "1545896668571",
               "price": "0.07",                      //Filled price
               "size": "0.004",                      //Filled amount
-              "side": "buy",                        //Filled side. The filled side is set to the taker by default.
+              "side": "buy",                        //Filled side. The filled side is set to the taker by async default.
               "time": 1545904567062140823           //Transaction time
           },
           {
@@ -307,9 +307,9 @@ class MarketData(KucoinBaseRestApi):
         params = {
             'symbol': symbol
         }
-        return self._request('GET', '/api/v1/market/histories', params=params)
+        return await self._request('GET', '/api/v1/market/histories', params=params)
 
-    def get_kline(self, symbol, kline_type, **kwargs):
+    async def get_kline(self, symbol, kline_type, **kwargs):
         """
         https://docs.kucoin.com/#get-klines
         :param symbol: symbol (Mandatory)
@@ -345,9 +345,9 @@ class MarketData(KucoinBaseRestApi):
         }
         if kwargs:
             params.update(kwargs)
-        return self._request('GET', '/api/v1/market/candles', params=params)
+        return await self._request('GET', '/api/v1/market/candles', params=params)
 
-    def get_currencies(self):
+    async def get_currencies(self):
         """
         https://docs.kucoin.com/#get-currencies
         :return:
@@ -378,9 +378,9 @@ class MarketData(KucoinBaseRestApi):
 
         }]
         """
-        return self._request('GET', '/api/v1/currencies')
+        return await self._request('GET', '/api/v1/currencies')
 
-    def get_currency_detail(self, currency, chain=None):
+    async def get_currency_detail(self, currency, chain=None):
         """
         https://docs.kucoin.com/#get-currency-detail
         :param currency: currency (Mandatory)
@@ -405,9 +405,9 @@ class MarketData(KucoinBaseRestApi):
         params = {}
         if chain:
             params['chain'] = chain
-        return self._request('GET', '/api/v1/currencies/{currency}'.format(currency=currency), params=params)
+        return await self._request('GET', '/api/v1/currencies/{currency}'.format(currency=currency), params=params)
 
-    def get_fiat_price(self, **kwargs):
+    async def get_fiat_price(self, **kwargs):
         """
         https://docs.kucoin.com/#get-fiat-price
         :param kwargs: [Optional] base, currencies
@@ -422,18 +422,18 @@ class MarketData(KucoinBaseRestApi):
         params = {}
         if kwargs:
             params.update(kwargs)
-        return self._request('GET', '/api/v1/prices', params=params)
+        return await self._request('GET', '/api/v1/prices', params=params)
 
-    def get_server_timestamp(self):
+    async def get_server_timestamp(self):
         """
         https://docs.kucoin.com/#server-time
 
         get server timestamp
         :return: 1570609496404
         """
-        return self._request('GET', '/api/v1/timestamp', auth=False)
+        return await self._request('GET', '/api/v1/timestamp', auth=False)
 
-    def get_server_status(self):
+    async def get_server_status(self):
         """
         https://docs.kucoin.com/#server-time
 
@@ -444,4 +444,4 @@ class MarketData(KucoinBaseRestApi):
           "msg":  "upgrade match engine"   //remark for operation
         }
         """
-        return self._request('GET', '/api/v1/status', auth=False)
+        return await self._request('GET', '/api/v1/status', auth=False)

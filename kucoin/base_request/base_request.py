@@ -34,13 +34,16 @@ class KucoinBaseRestApi(object):
             else:
                 self.url = 'https://api.kucoin.com'
 
-        self.session = aiohttp.ClientSession()
+        self.session = None # Updated on first `_request`
         self.key = key
         self.secret = secret
         self.passphrase = passphrase
         self.is_v1api = is_v1api
 
     async def _request(self, method, uri, timeout=10, auth=True, params=None):
+        if not self.session:
+            self.session = aiohttp.ClientSession()
+        
         uri_path = uri
         data_json = ''
         version = 'v1.0.7'
@@ -88,10 +91,12 @@ class KucoinBaseRestApi(object):
 
         if method in ['GET', 'DELETE']:
             async with getattr(self.session, method.lower())(url, headers=headers, timeout=timeout) as response:
-                return await self.check_response_data(response)
+                out = await self.check_response_data(response)
         else:
             async with getattr(self.session, method.lower())(url, headers=headers, data=data_json, timeout=timeout) as response:
-                return await self.check_response_data(response)
+                out = await self.check_response_data(response)
+        await self.session.close()
+        return out
 
     @staticmethod
     async def check_response_data(response_data):

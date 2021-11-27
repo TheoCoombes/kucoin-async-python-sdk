@@ -1,6 +1,6 @@
-===============================
-Welcome to python-kucoin-sdk
-===============================
+==================================
+Welcome to kucoin-async-python-sdk
+==================================
 
 .. image:: https://img.shields.io/pypi/l/python-kucoin
     :target: https://github.com/Kucoin/kucoin-python-sdk/blob/master/LICENSE
@@ -11,15 +11,11 @@ Welcome to python-kucoin-sdk
 
 Features
 --------
-
+- Full asyncio support on ALL methods
 - Implementation of REST endpoints
 - Simple handling of authentication
 - Response exception handling
-- Implement websockets (note only python3.6+)
-
-update
-----------
-- 2021 08/18
+- Implement websockets (note only python 3.6+)
 
 Quick Start
 -----------
@@ -33,55 +29,65 @@ or `Generate an API Key in Sandbox <https://sandbox.kucoin.com/account/api>`_ an
 
 .. code:: bash
 
-    pip install kucoin-python
+    pip install git+https://github.com/TheoCoombes/kucoin-async-python-sdk.git
 
+
+Basic Usage
+----------
 .. code:: python
+    
+    import asyncio
 
-    #  MarketData
-    from kucoin.client import Market
-    client = Market(url='https://api.kucoin.com')
-    # client = Market()
+    async def main():
+        #  Market Data
+        from kucoin.client import Market
+        client = Market(url='https://api.kucoin.com')
+        # client = Market()
 
-    # or connect to Sandbox
-    # client = Market(url='https://openapi-sandbox.kucoin.com')
-    # client = Market(is_sandbox=True)
+        # or connect to Sandbox
+        # client = Market(url='https://openapi-sandbox.kucoin.com')
+        # client = Market(is_sandbox=True)
 
-    # get symbol kline
-    klines = client.get_kline('BTC-USDT','1min')
+        # get symbol kline
+        klines = await client.get_kline('BTC-USDT','1min')
 
-    # get symbol ticker
-    server_time = client.get_server_timestamp()
+        # get symbol ticker
+        server_time = await client.get_server_timestamp()
 
-    api_key = '<api_key>'
-    api_secret = '<api_secret>'
-    api_passphrase = '<api_passphrase>'
+        api_key = '<api_key>'
+        api_secret = '<api_secret>'
+        api_passphrase = '<api_passphrase>'
 
-    # Trade
-    from kucoin.client import Trade
-    client = Trade(key='', secret='', passphrase='', is_sandbox=False, url='')
+        # Trade
+        from kucoin.client import Trade
+        client = Trade(key='', secret='', passphrase='', is_sandbox=False, url='')
 
-    # or connect to Sandbox
-    # client = Trade(api_key, api_secret, api_passphrase, is_sandbox=True)
+        # or connect to Sandbox
+        # client = Trade(api_key, api_secret, api_passphrase, is_sandbox=True)
 
-    # place a limit buy order
-    order_id = client.create_limit_order('BTC-USDT', 'buy', '1', '8000')
+        # place a limit buy order
+        order_id = await client.create_limit_order('BTC-USDT', 'buy', '1', '8000')
 
-    # place a market buy order   Use cautiously
-    order_id = client.create_market_order('BTC-USDT', 'buy', size='1')
+        # place a market buy order   Use cautiously
+        order_id = await client.create_market_order('BTC-USDT', 'buy', size='1')
 
-    # cancel limit order 
-    client.cancel_order('5bd6e9286d99522a52e458de')
+        # cancel limit order 
+        await client.cancel_order('5bd6e9286d99522a52e458de')
 
-    # User
-    from kucoin.client import User
-    client = User(api_key, api_secret, api_passphrase)
+        # User
+        from kucoin.client import User
+        client = User(api_key, api_secret, api_passphrase)
 
-    # or connect to Sandbox
-    # client = User(api_key, api_secret, api_passphrase, is_sandbox=True)
+        # or connect to Sandbox
+        # client = User(api_key, api_secret, api_passphrase, is_sandbox=True)
 
-    address = client.get_withdrawal_quota('KCS')
+        address = await client.get_withdrawal_quota('KCS')
 
-Websockets
+    if __name__ == "__main__":
+        loop = asyncio.get_event_loop()
+        loop.run_until_complete(main())
+
+Websockets (same as standard library)
 ----------
 
 .. code:: python

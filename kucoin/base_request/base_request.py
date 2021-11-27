@@ -2,7 +2,7 @@
 # -*- coding:utf-8 -*-
 
 import json
-import requests
+import aiohttp
 import hmac
 import hashlib
 import base64
@@ -34,12 +34,13 @@ class KucoinBaseRestApi(object):
             else:
                 self.url = 'https://api.kucoin.com'
 
+        self.session = aiohttp.ClientSession()
         self.key = key
         self.secret = secret
         self.passphrase = passphrase
         self.is_v1api = is_v1api
 
-    def _request(self, method, uri, timeout=5, auth=True, params=None):
+    async def _request(self, method, uri, timeout=10, auth=True, params=None):
         uri_path = uri
         data_json = ''
         version = 'v1.0.7'
@@ -82,23 +83,24 @@ class KucoinBaseRestApi(object):
                     "Content-Type": "application/json",
                     "KC-API-KEY-VERSION": "2"
                 }
-        headers["User-Agent"] = "kucoin-python-sdk/"+version
+        headers["User-Agent"] = "kucoin-async-python-sdk/"+version
         url = urljoin(self.url, uri)
 
         if method in ['GET', 'DELETE']:
-            response_data = requests.request(method, url, headers=headers, timeout=timeout)
+            async with getattr(self.session, method.lower())(url, headers=headers, timeout=timeout) as response:
+                return await self.check_response_data(response)
         else:
-            response_data = requests.request(method, url, headers=headers, data=data_json,
-                                             timeout=timeout)
-        return self.check_response_data(response_data)
+            async with getattr(self.session, method.lower())(url, headers=headers, data=data_json, timeout=timeout) as response:
+                return await self.check_response_data(response)
 
     @staticmethod
-    def check_response_data(response_data):
-        if response_data.status_code == 200:
+    async def check_response_data(response_data):
+        text = await response_data.text()
+        if response_data.status == 200:
             try:
-                data = response_data.json()
-            except ValueError:
-                raise Exception(response_data.content)
+                data = json.loads(text)
+            except Exception:
+                raise Exception(text)
             else:
                 if data and data.get('code'):
                     if data.get('code') == '200000':
@@ -107,9 +109,9 @@ class KucoinBaseRestApi(object):
                         else:
                             return data
                     else:
-                        raise Exception("{}-{}".format(response_data.status_code, response_data.text))
+                        raise Exception("{}-{}".format(response_data.status, text))
         else:
-            raise Exception("{}-{}".format(response_data.status_code, response_data.text))
+            raise Exception("{}-{}".format(response_data.status, text))
 
     @property
     def return_unique_id(self):

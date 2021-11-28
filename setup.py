@@ -3,21 +3,20 @@
 
 from setuptools import setup
 
-
 setup(
-    name='kucoin-python',
+    name='async-kucoin-python',
     version='v1.0.9',
-    packages=['kucoin', 'kucoin/base_request', 'kucoin/margin', 'kucoin/market', 'kucoin/trade', 'kucoin/user',
-              'kucoin/websocket', 'kucoin/ws_token'],
+    packages=['kucoin_async', 'kucoin_async/base_request', 'kucoin_async/margin', 'kucoin_async/market', 'kucoin_async/trade', 'kucoin_async/user',
+              'kucoin_async/websocket', 'kucoin_async/ws_token'],
     license="MIT",
-    author='Arthur',
-    author_email="arthur.zhang@kucoin.com",
-    url='https://github.com/Kucoin/kucoin-python-sdk',
-    description="kucoin-api-sdk",
-    install_requires=['requests', 'websockets'],
+    author='Theo',
+    author_email="theocoombes06@gmail.com",
+    url='https://github.com/TheoCoombes/kucoin-async-python-sdk',
+    description="Asynchronous wrapper for KuCoin's API. Forked from Kucoin/kucoin-python-sdk",
+    install_requires=['aiohttp', 'websockets'],
     classifiers=[
         "Programming Language :: Python :: 3",
         "License :: OSI Approved :: MIT License",
         "Operating System :: OS Independent",
-    ],
+    ]
 )

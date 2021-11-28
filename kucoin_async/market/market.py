@@ -1,4 +1,4 @@
-from kucoin.base_request.base_request import KucoinBaseRestApi
+from kucoin_async.base_request.base_request import KucoinBaseRestApi
 
 
 class MarketData(KucoinBaseRestApi):

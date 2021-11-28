@@ -34,7 +34,7 @@ class ConnectWebsocket:
         keep_alive = True
         self._last_ping = time.time()  # record last ping
         self._ws_details = None
-        self._ws_details = self._client.get_ws_token(self._private)
+        self._ws_details = await self._client.get_ws_token(self._private)
         logger.warning(self._ws_details)
 
         async with websockets.connect(self.get_ws_endpoint(), ssl=self.get_ws_encryption()) as socket:

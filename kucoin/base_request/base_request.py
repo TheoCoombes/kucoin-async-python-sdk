@@ -91,12 +91,10 @@ class KucoinBaseRestApi(object):
 
         if method in ['GET', 'DELETE']:
             async with getattr(self.session, method.lower())(url, headers=headers, timeout=timeout) as response:
-                out = await self.check_response_data(response)
+                return await self.check_response_data(response)
         else:
             async with getattr(self.session, method.lower())(url, headers=headers, data=data_json, timeout=timeout) as response:
-                out = await self.check_response_data(response)
-        await self.session.close()
-        return out
+                return await self.check_response_data(response)
 
     @staticmethod
     async def check_response_data(response_data):

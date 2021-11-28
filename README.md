@@ -24,7 +24,7 @@ await client.close()
 
 ## Basic Usage
 ```py
-from kucoin.client import Market, Trade
+from kucoin_async.client import Market, Trade
 import asyncio
 
 async def main():
@@ -68,8 +68,8 @@ View the [original repo](https://github.com/Kucoin/kucoin-python-sdk) for more e
 ## Websockets (same as standard library)
 ```py
 import asyncio
-from kucoin.client import WsToken
-from kucoin.ws_client import KucoinWsClient
+from kucoin_async.client import WsToken
+from kucoin_async.ws_client import KucoinWsClient
 
 
 async def main():

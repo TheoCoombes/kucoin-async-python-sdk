@@ -2,6 +2,7 @@
 
 ## Features
 - Full asyncio support on ALL methods
+- Drop-in replacement for the [exisiting client](https://github.com/Kucoin/kucoin-python-sdk).
 - Implementation of REST endpoints
 - Simple handling of authentication
 - Response exception handling

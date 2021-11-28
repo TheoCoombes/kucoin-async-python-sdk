@@ -1,8 +1,8 @@
-from kucoin.margin.margin import MarginData
-from kucoin.market.market import MarketData
-from kucoin.trade.trade import TradeData
-from kucoin.user.user import UserData
-from kucoin.ws_token.token import GetToken
+from kucoin_async.margin.margin import MarginData
+from kucoin_async.market.market import MarketData
+from kucoin_async.trade.trade import TradeData
+from kucoin_async.user.user import UserData
+from kucoin_async.ws_token.token import GetToken
 
 
 class User(UserData):

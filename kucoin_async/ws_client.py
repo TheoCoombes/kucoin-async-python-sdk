@@ -1,4 +1,4 @@
-from kucoin.websocket.websocket import ConnectWebsocket
+from kucoin_async.websocket.websocket import ConnectWebsocket
 import asyncio
 
 

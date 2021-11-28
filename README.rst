@@ -36,52 +36,41 @@ Basic Usage
 ----------
 .. code:: python
     
+    from kucoin.client import Market, Trade
     import asyncio
 
     async def main():
-        #  Market Data
-        from kucoin.client import Market
+        # Market
         client = Market(url='https://api.kucoin.com')
-        # client = Market()
 
-        # or connect to Sandbox
-        # client = Market(url='https://openapi-sandbox.kucoin.com')
-        # client = Market(is_sandbox=True)
+        klines = await client.get_kline('BTC-USDT', '1min')
 
-        # get symbol kline
-        klines = await client.get_kline('BTC-USDT','1min')
-
-        # get symbol ticker
+        # Get KuCoin server's timestamp
         server_time = await client.get_server_timestamp()
+        
+        # Safe exit client connection
+        await client.close()
 
+        # Trade
         api_key = '<api_key>'
         api_secret = '<api_secret>'
         api_passphrase = '<api_passphrase>'
 
-        # Trade
-        from kucoin.client import Trade
         client = Trade(key='', secret='', passphrase='', is_sandbox=False, url='')
 
-        # or connect to Sandbox
-        # client = Trade(api_key, api_secret, api_passphrase, is_sandbox=True)
-
-        # place a limit buy order
+        # Create limit order
         order_id = await client.create_limit_order('BTC-USDT', 'buy', '1', '8000')
 
-        # place a market buy order   Use cautiously
+        # Create market order
         order_id = await client.create_market_order('BTC-USDT', 'buy', size='1')
 
-        # cancel limit order 
+        # Cancel limit order
         await client.cancel_order('5bd6e9286d99522a52e458de')
 
-        # User
-        from kucoin.client import User
-        client = User(api_key, api_secret, api_passphrase)
-
-        # or connect to Sandbox
-        # client = User(api_key, api_secret, api_passphrase, is_sandbox=True)
-
-        address = await client.get_withdrawal_quota('KCS')
+        # Safe close client
+        await client.close()
+        
+        # View original docs for more examples
 
     if __name__ == "__main__":
         loop = asyncio.get_event_loop()

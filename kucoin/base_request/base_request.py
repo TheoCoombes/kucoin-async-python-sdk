@@ -95,6 +95,12 @@ class KucoinBaseRestApi(object):
         else:
             async with getattr(self.session, method.lower())(url, headers=headers, data=data_json, timeout=timeout) as response:
                 return await self.check_response_data(response)
+    
+    async def close(self):
+        if not self.session:
+            return
+        else:
+            return await self.session.close()
 
     @staticmethod
     async def check_response_data(response_data):

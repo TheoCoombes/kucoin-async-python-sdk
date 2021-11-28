@@ -15,6 +15,11 @@
 pip install git+https://github.com/TheoCoombes/kucoin-async-python-sdk.git
 ```
 
+## Note
+To avoid errors, you have to close the client session after use:
+```py
+await client.close()
+```
 
 ## Basic Usage
 ```py
